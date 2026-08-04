@@ -1,5 +1,9 @@
 import { LayoutDashboard, FilePlus, FileText, User } from 'lucide-react'
-
+import { useTheme } from '../../app/providers/ThemeProvider'
+import fmLight from '../../shared/assets/logos/fmlogo-light.png'
+import nicozDark from '../../shared/assets/logos/nicozlogo-dark.png'
+import { useState } from 'react'
+import { motion } from 'motion/react'
 interface NavItem {
   label: string
   icon: React.ElementType
@@ -14,9 +18,26 @@ const NAV_ITEMS: NavItem[] = [
 ]
 
 export function Sidebar() {
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
+  const [hovered, setHovered] = useState(false)
+
   return (
-    <aside className="hidden md:flex flex-col w-56 shrink-0 bg-card text-card-ink min-h-dvh p-4 gap-1">
-      <div className="text-sm font-semibold tracking-wide mb-6 px-2 opacity-80">Claims System</div>
+    <aside
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      className="relative hidden md:flex flex-col w-56 shrink-0 sticky top-0 h-dvh bg-card text-card-ink p-4 gap-1 overflow-hidden"
+    >
+      <motion.div
+        className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-white/10 to-transparent"
+        initial={{ y: '-100%' }}
+        animate={{ y: hovered ? '100%' : '-100%' }}
+        transition={{ duration: 0.9, ease: 'easeInOut' }}
+      />
+      <div className="flex items-center gap-2 mb-6 px-2">
+        <img src={isDark ? nicozDark : fmLight} alt="" className={isDark ? 'h-11 w-auto' : 'h-9 w-auto'} />
+        <span className="text-sm font-semibold tracking-wide opacity-80">Claims System</span>
+      </div>
       {NAV_ITEMS.map(({ label, icon: Icon, active }) => (
         <button
           key={label}

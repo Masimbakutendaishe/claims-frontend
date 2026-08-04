@@ -4,13 +4,13 @@
 @theme {
   /* Light mode: First Mutual */
   --color-page: #FFFFFF;
-  --color-card: #4A0E0A;
+  --color-card: #922B21;
   --color-card-ink: #FFFFFF;
   --color-input-bg: #FFFFFF;
   --color-input-ink: #7A1F1A;
-  --color-button-bg: #7A1F1A;
+  --color-button-bg: #862A1F;
   --color-button-ink: #FFFFFF;
-  --color-brand-500: #A93226;
+  --color-brand-500: #C0392B;
 }
 
 .dark {
@@ -24,7 +24,6 @@
   --color-button-ink: #C7CBD1;
   --color-brand-500: #4A5A6B;
 }
-
 
 /* Themed scrollbar */
 ::-webkit-scrollbar {
@@ -41,9 +40,11 @@
 ::-webkit-scrollbar-thumb:hover {
   opacity: 0.8;
 }
-
-/* Firefox */
 * {
   scrollbar-width: thin;
   scrollbar-color: var(--color-brand-500) transparent;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
 }

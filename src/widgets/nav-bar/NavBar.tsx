@@ -1,22 +1,51 @@
 import { LogOut, Menu } from 'lucide-react'
 import { useAuthContext } from '../../app/providers/AuthProvider'
+import { useTheme } from '../../app/providers/ThemeProvider'
 import { ThemeToggle } from '../theme-toggle/ThemeToggle'
+import fmPark from '../../shared/assets/backgrounds/fmpark.jpg'
+import nicozImage from '../../shared/assets/backgrounds/nicozimage.jpg'
+import { useRef, useEffect } from 'react'
 
 export function NavBar() {
   const { user, logout } = useAuthContext()
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
+  const ref = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    if (!ref.current) return
+    const setHeight = () => {
+      document.documentElement.style.setProperty('--navbar-h', `${ref.current!.offsetHeight}px`)
+    }
+    setHeight()
+    const observer = new ResizeObserver(setHeight)
+    observer.observe(ref.current)
+    return () => observer.disconnect()
+  }, [])
 
   return (
-    <header className="flex items-center justify-between px-4 sm:px-6 py-4 border-b border-black/5 dark:border-white/10">
-      <button type="button" className="md:hidden text-card">
+    <header
+      ref={ref}
+      className="sticky top-0 z-20 flex items-center justify-between px-4 sm:px-6 py-4 overflow-hidden bg-cover bg-center"
+      style={{ backgroundImage: `url(${isDark ? nicozImage : fmPark})` }}
+    >
+      {/* Shade layer — keeps text readable regardless of what's in the photo underneath */}
+      <div
+        className={`absolute inset-0 ${
+          isDark ? 'bg-[#0B1B33]/70' : 'bg-white/75'
+        }`}
+      />
+
+      <button type="button" className="relative z-10 md:hidden text-card">
         <Menu size={22} />
       </button>
 
-      <div className="hidden md:block">
-        <h1 className="text-base font-semibold text-card">Welcome, {user?.fullName}</h1>
-        <p className="text-xs opacity-60">Manage your claims</p>
+      <div className="relative z-10 hidden md:block">
+        <h1 className="text-base font-semibold text-card drop-shadow-sm">Welcome, {user?.fullName}</h1>
+        <p className="text-xs opacity-80 text-card">Manage your claims</p>
       </div>
 
-      <div className="flex items-center gap-4">
+      <div className="relative z-10 flex items-center gap-4">
         <ThemeToggle />
         <button type="button" onClick={logout} className="flex items-center gap-1.5 text-sm text-card">
           <LogOut size={16} />

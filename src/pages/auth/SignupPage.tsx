@@ -6,7 +6,7 @@ import fmLight from '../../shared/assets/logos/fmlogo-light.png'
 import fmDark from '../../shared/assets/logos/fmlogo-dark.png'
 import nicozLight from '../../shared/assets/logos/nicozlogo-light.png'
 import nicozDark from '../../shared/assets/logos/nicozlogo-dark.png'
-
+import { Tilt3D } from '../../shared/ui/Tilt3D'
 interface Props {
   onSuccess: () => void
   onNavigateLogin: () => void
@@ -28,10 +28,12 @@ export function SignupPage({ onSuccess, onNavigateLogin }: Props) {
         <h1 className="text-card font-semibold text-base tracking-wide">Create your account</h1>
         <ThemeToggle />
 
+        <Tilt3D className="w-full">
         <div className="group relative overflow-hidden bg-card rounded-3xl px-6 py-6 flex flex-col items-center gap-3 shadow-lg w-full mt-2">
           <SignupForm onSuccess={onSuccess} />
           <div className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
         </div>
+      </Tilt3D>
 
         <button type="button" onClick={onNavigateLogin} className="text-xs text-card underline mt-1">
           Already have an account? Sign in

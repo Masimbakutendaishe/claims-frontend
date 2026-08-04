@@ -1,19 +1,27 @@
+import { emptyClaimFormDetails, type ClaimFormDetails } from './claim.contract'
+
 export type OwnershipAnswer = 'own' | 'third_party'
+export type PhotoAngle = 'front' | 'back' | 'left' | 'right' | 'damage_close' | 'wide_shot'
 
 export interface ClaimDraft {
   licenseConfirmed: boolean
   ownership: OwnershipAnswer | null
-  incidentDescription: string
-  vehicleRegistration: string
+  formDetails: ClaimFormDetails
   policeReportFile: File | null
-  photoFiles: File[]
+  photosByAngle: Record<PhotoAngle, File | null>
 }
 
 export const emptyClaimDraft: ClaimDraft = {
   licenseConfirmed: false,
   ownership: null,
-  incidentDescription: '',
-  vehicleRegistration: '',
+  formDetails: emptyClaimFormDetails,
   policeReportFile: null,
-  photoFiles: [],
+  photosByAngle: {
+    front: null,
+    back: null,
+    left: null,
+    right: null,
+    damage_close: null,
+    wide_shot: null,
+  },
 }
