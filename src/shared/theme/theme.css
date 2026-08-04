@@ -1,0 +1,49 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* Light mode: First Mutual */
+  --color-page: #FFFFFF;
+  --color-card: #4A0E0A;
+  --color-card-ink: #FFFFFF;
+  --color-input-bg: #FFFFFF;
+  --color-input-ink: #7A1F1A;
+  --color-button-bg: #7A1F1A;
+  --color-button-ink: #FFFFFF;
+  --color-brand-500: #A93226;
+}
+
+.dark {
+  /* Dark mode: navy blue / silver gray */
+  --color-page: #0B1B33;
+  --color-card: #C7CBD1;
+  --color-card-ink: #0B1B33;
+  --color-input-bg: #FFFFFF;
+  --color-input-ink: #1F2A44;
+  --color-button-bg: #0B1B33;
+  --color-button-ink: #C7CBD1;
+  --color-brand-500: #4A5A6B;
+}
+
+
+/* Themed scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-brand-500);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  opacity: 0.8;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-brand-500) transparent;
+}
