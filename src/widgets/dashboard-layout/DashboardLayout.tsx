@@ -1,5 +1,6 @@
 import { Sidebar } from '../sidebar/Sidebar'
 import { NavBar } from '../nav-bar/NavBar'
+import { ChatWidget } from '../chat/ChatWidget'
 
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -9,6 +10,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
         <NavBar />
         <main className="flex-1">{children}</main>
       </div>
+      <ChatWidget />
     </div>
   )
 }

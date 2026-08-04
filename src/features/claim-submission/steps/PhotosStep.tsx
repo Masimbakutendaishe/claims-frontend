@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { Button } from '../../../shared/ui/Button'
 import { PhotoQualityGuide } from '../PhotoQualityGuide'
 import { PhotoGuideCube } from '../PhotoGuideCube'
@@ -21,8 +22,25 @@ const SLOTS: { angle: PhotoAngle; label: string }[] = [
 ]
 
 export function PhotosStep({ photosByAngle, onBack, onNext }: Props) {
+  const [previews, setPreviews] = useState<Partial<Record<PhotoAngle, string>>>({})
+
+  useEffect(() => {
+    const urls: Partial<Record<PhotoAngle, string>> = {}
+    for (const { angle } of SLOTS) {
+      const file = photosByAngle[angle]
+      if (file) urls[angle] = URL.createObjectURL(file)
+    }
+    setPreviews(urls)
+    return () => {
+      Object.values(urls).forEach((url) => url && URL.revokeObjectURL(url))
+    }
+  }, [photosByAngle])
+
   const setPhoto = (angle: PhotoAngle, file: File) => {
     onNext({ ...photosByAngle, [angle]: file })
+  }
+  const removePhoto = (angle: PhotoAngle) => {
+    onNext({ ...photosByAngle, [angle]: null })
   }
 
   const completed = Object.fromEntries(
@@ -35,7 +53,7 @@ export function PhotosStep({ photosByAngle, onBack, onNext }: Props) {
     <div className="space-y-5 text-center">
       <h2 className="font-semibold text-card-ink">Photos of the damage</h2>
       <PhotoQualityGuide />
-      <PhotoGuideCube completed={completed} />
+      <PhotoGuideCube completed={completed} previews={previews} />
 
       <div className="grid grid-cols-3 gap-2">
         {SLOTS.map(({ angle, label }) => (
@@ -43,8 +61,9 @@ export function PhotosStep({ photosByAngle, onBack, onNext }: Props) {
             key={angle}
             label={label}
             required={REQUIRED.includes(angle)}
-            hasFile={Boolean(photosByAngle[angle])}
+            file={photosByAngle[angle]}
             onFile={(file) => setPhoto(angle, file)}
+            onRemove={() => removePhoto(angle)}
           />
         ))}
       </div>

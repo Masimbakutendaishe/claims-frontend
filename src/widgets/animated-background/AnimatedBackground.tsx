@@ -9,7 +9,6 @@ function ShieldIcon({ color }: { color: string }) {
     </svg>
   )
 }
-
 function DiamondIcon({ color }: { color: string }) {
   return (
     <svg viewBox="0 0 100 100" fill="none" stroke={color} strokeWidth="2.5">
@@ -18,7 +17,6 @@ function DiamondIcon({ color }: { color: string }) {
     </svg>
   )
 }
-
 function DocumentIcon({ color }: { color: string }) {
   return (
     <svg viewBox="0 0 100 100" fill="none" stroke={color} strokeWidth="2.5">
@@ -28,7 +26,6 @@ function DocumentIcon({ color }: { color: string }) {
     </svg>
   )
 }
-
 function CarIcon({ color }: { color: string }) {
   return (
     <svg viewBox="0 0 120 70" fill="none" stroke={color} strokeWidth="2.5">
@@ -38,23 +35,44 @@ function CarIcon({ color }: { color: string }) {
     </svg>
   )
 }
+function KeyIcon({ color }: { color: string }) {
+  return (
+    <svg viewBox="0 0 100 60" fill="none" stroke={color} strokeWidth="2.5">
+      <circle cx="20" cy="30" r="14" />
+      <path d="M32 30 H92 M70 30 V44 M84 30 V40" />
+    </svg>
+  )
+}
+function CheckShieldIcon({ color }: { color: string }) {
+  return (
+    <svg viewBox="0 0 100 100" fill="none" stroke={color} strokeWidth="2.5">
+      <path d="M50 6 L90 22 V50 C90 74 72 90 50 96 C28 90 10 74 10 50 V22 Z" />
+      <path d="M32 48 L46 62 L70 34" />
+    </svg>
+  )
+}
 
 interface FloatItem {
   Icon: (props: { color: string }) => React.JSX.Element
   size: number
   top: string
   duration: number
-  delay: number
   reverse?: boolean
 }
 
 const items: FloatItem[] = [
-  { Icon: ShieldIcon, size: 160, top: '4%', duration: 55, delay: 0 },
-  { Icon: DiamondIcon, size: 110, top: '68%', duration: 48, delay: 6, reverse: true },
-  { Icon: CarIcon, size: 190, top: '42%', duration: 62, delay: 3 },
-  { Icon: DocumentIcon, size: 130, top: '82%', duration: 50, delay: 10, reverse: true },
-  { Icon: ShieldIcon, size: 100, top: '18%', duration: 45, delay: 14, reverse: true },
-  { Icon: DiamondIcon, size: 140, top: '58%', duration: 58, delay: 20 },
+  { Icon: ShieldIcon, size: 150, top: '2%', duration: 26 },
+  { Icon: DiamondIcon, size: 100, top: '15%', duration: 22, reverse: true },
+  { Icon: CarIcon, size: 180, top: '30%', duration: 30 },
+  { Icon: DocumentIcon, size: 120, top: '45%', duration: 20, reverse: true },
+  { Icon: KeyIcon, size: 110, top: '58%', duration: 24 },
+  { Icon: ShieldIcon, size: 90, top: '70%', duration: 18, reverse: true },
+  { Icon: DiamondIcon, size: 130, top: '80%', duration: 28 },
+  { Icon: CheckShieldIcon, size: 100, top: '90%', duration: 21, reverse: true },
+  { Icon: CarIcon, size: 140, top: '8%', duration: 34, reverse: true },
+  { Icon: DocumentIcon, size: 95, top: '38%', duration: 19 },
+  { Icon: KeyIcon, size: 105, top: '65%', duration: 25, reverse: true },
+  { Icon: CheckShieldIcon, size: 115, top: '95%', duration: 23 },
 ]
 
 export function AnimatedBackground() {
@@ -64,14 +82,14 @@ export function AnimatedBackground() {
 
   return (
     <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-      {items.map(({ Icon, size, top, duration, delay, reverse }, i) => (
+      {items.map(({ Icon, size, top, duration, reverse }, i) => (
         <motion.div
           key={i}
           className="absolute"
           style={{ top, width: size, height: size, opacity: isDark ? 0.22 : 0.2 }}
           initial={{ x: reverse ? '110vw' : '-20vw' }}
           animate={{ x: reverse ? '-20vw' : '110vw' }}
-          transition={{ duration, delay, repeat: Infinity, ease: 'linear' }}
+          transition={{ duration, delay: 0, repeat: Infinity, ease: 'linear' }}
         >
           <Icon color={color} />
         </motion.div>

@@ -35,7 +35,7 @@ export function Sidebar() {
         transition={{ duration: 0.9, ease: 'easeInOut' }}
       />
       <div className="flex items-center gap-2 mb-6 px-2">
-        <img src={isDark ? nicozDark : fmLight} alt="" className={isDark ? 'h-11 w-auto' : 'h-9 w-auto'} />
+        <img src={isDark ? nicozDark : fmLight} alt="" className={isDark ? 'h-14 w-auto shrink-0' : 'h-9 w-auto shrink-0'} />
         <span className="text-sm font-semibold tracking-wide opacity-80">Claims System</span>
       </div>
       {NAV_ITEMS.map(({ label, icon: Icon, active }) => (

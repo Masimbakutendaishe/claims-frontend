@@ -42,7 +42,13 @@ const FACES: Face[] = [
   { angle: 'left', label: 'Left side', rotateY: 270, render: CarSide, flip: true },
 ]
 
-export function PhotoGuideCube({ completed }: { completed: Record<PhotoAngle, boolean> }) {
+export function PhotoGuideCube({
+  completed,
+  previews,
+}: {
+  completed: Record<PhotoAngle, boolean>
+  previews: Partial<Record<PhotoAngle, string>>
+}) {
   const rotateY = useMotionValue(0)
   const isDragging = useRef(false)
 
@@ -64,20 +70,39 @@ export function PhotoGuideCube({ completed }: { completed: Record<PhotoAngle, bo
           onDragEnd={() => { isDragging.current = false }}
           onDrag={(_, info) => rotateY.set(rotateY.get() + info.delta.x * 0.6)}
         >
-          {FACES.map(({ angle, label, rotateY: faceRotate, render: Render, flip }) => (
-            <div
-              key={angle}
-              className={`absolute inset-0 flex flex-col items-center justify-center rounded-xl border-2 backface-hidden ${
-                completed[angle] ? 'border-green-400 bg-green-400/15 text-green-400' : 'border-white/40 text-card-ink'
-              }`}
-              style={{
-                transform: `rotateY(${faceRotate}deg) translateZ(${DEPTH}px) ${flip ? 'scaleX(-1)' : ''}`,
-              }}
-            >
-              <div className="w-16 h-10"><Render /></div>
-              <span className="text-[10px] mt-1 opacity-80">{label}</span>
-            </div>
-          ))}
+          {FACES.map(({ angle, label, rotateY: faceRotate, render: Render, flip }) => {
+            const photo = previews[angle]
+            return (
+              <div
+                key={angle}
+                className={`absolute inset-0 flex flex-col items-center justify-center rounded-xl border-2 backface-hidden overflow-hidden ${
+                  completed[angle] ? 'border-green-400' : 'border-white/40 text-card-ink'
+                }`}
+                style={{
+                  transform: `rotateY(${faceRotate}deg) translateZ(${DEPTH}px) ${flip ? 'scaleX(-1)' : ''}`,
+                }}
+              >
+                {photo ? (
+                  <img
+                    src={photo}
+                    alt={label}
+                    className="w-full h-full object-cover"
+                    style={{ transform: flip ? 'scaleX(-1)' : undefined }}
+                  />
+                ) : (
+                  <>
+                    <div className="w-16 h-10"><Render /></div>
+                    <span className="text-[10px] mt-1 opacity-80">{label}</span>
+                  </>
+                )}
+                {photo && (
+                  <span className="absolute bottom-1 left-1 text-[9px] text-white bg-black/50 rounded px-1 py-0.5">
+                    {label}
+                  </span>
+                )}
+              </div>
+            )
+          })}
         </motion.div>
       </div>
       <p className="text-[11px] opacity-60 text-card-ink">Drag to rotate — capture each angle shown</p>

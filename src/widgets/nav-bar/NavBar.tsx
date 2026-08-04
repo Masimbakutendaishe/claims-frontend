@@ -1,4 +1,4 @@
-import { LogOut, Menu } from 'lucide-react'
+import { LogOut, Menu, User } from 'lucide-react'
 import { useAuthContext } from '../../app/providers/AuthProvider'
 import { useTheme } from '../../app/providers/ThemeProvider'
 import { ThemeToggle } from '../theme-toggle/ThemeToggle'
@@ -40,9 +40,18 @@ export function NavBar() {
         <Menu size={22} />
       </button>
 
-      <div className="relative z-10 hidden md:block">
-        <h1 className="text-base font-semibold text-card drop-shadow-sm">Welcome, {user?.fullName}</h1>
-        <p className="text-xs opacity-80 text-card">Manage your claims</p>
+      <div className="relative z-10 hidden md:flex items-center gap-3">
+        <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-white/40 bg-white/20 flex items-center justify-center shrink-0">
+          {user?.avatarUrl ? (
+            <img src={user.avatarUrl} alt={user.fullName} className="w-full h-full object-cover" />
+          ) : (
+            <User size={18} className="text-card opacity-70" />
+          )}
+        </div>
+        <div>
+          <h1 className="text-base font-semibold text-card drop-shadow-sm">Welcome, {user?.fullName}</h1>
+          <p className="text-xs opacity-80 text-card">Manage your claims</p>
+        </div>
       </div>
 
       <div className="relative z-10 flex items-center gap-4">
